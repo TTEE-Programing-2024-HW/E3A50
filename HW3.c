@@ -7,7 +7,7 @@ int main (void)
 	void picture(void); //個人風格畫面 
 	
 	//變數宣告
-	int count = 0,password = 2023 ;//第一題用的計數跟密碼 
+	int count = 0,password = 2024 ;//第一題用的計數跟密碼 
 	char MENU;		//主選單的輸入變數 	
 	char c,A,B;		//case A的變數 
 	int space;		//case A的空格變數 
@@ -22,7 +22,7 @@ int main (void)
         printf("請輸入四個數字的密碼：");
         scanf("%d",&password);
         count++;				//計數+1 
-        if (password==2023)		//判斷密碼 
+        if (password==2024)		//判斷密碼 
 		{
             printf("輸入正確！歡迎~\n");
             break;
