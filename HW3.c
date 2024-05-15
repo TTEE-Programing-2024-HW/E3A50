@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h> 	
 #include <time.h> 
+#include <stdbool.h>
 #define ROWS 9
 #define COLS 9
 
@@ -20,7 +21,7 @@ void generate_random_seats() // 隨機產生已被預訂的座位
 void display_seat_chart() // 顯示座位表
 {
     printf("\\123456789\n");
-    for (int i = ROWS - 1; i >= 0; i--) 
+    for (int i = 0; i < ROWS; i++) 
 	{
         printf("%d", i + 1);
         for (int j = 0; j < COLS; j++) 
@@ -28,6 +29,41 @@ void display_seat_chart() // 顯示座位表
             printf("%c", seat_chart[i][j]);
         }
         printf("\n");
+    }
+}
+
+// 檢查座位是否可用(4)
+int check_seat_available(int start_row, int start_col, int num_seats, int direction) 
+{
+    if (direction == 0) {  // 檢查水平方向
+        for (int i = 0; i < num_seats; i++) {
+            if (seat_chart[start_row][start_col + i] == '*') {
+                return 0;  // 座位不可用
+            }
+        }
+    } else {  // 檢查垂直方向
+        for (int i = 0; i < num_seats; i++) {
+            if (seat_chart[start_row + i][start_col] == '*') {
+                return 0;  // 座位不可用
+            }
+        }
+    }
+    return 1;  // 座位可用
+}
+
+// 選擇座位---------------------------------------座位會在同一排!!!! (4)
+void choose_seats(int num_seats) {
+    int start_row, start_col;
+
+    // 隨機選擇起始座位
+    do {
+        start_row = rand() % ROWS;
+        start_col = rand() % (COLS - num_seats + 1); // 確保剩餘座位數足夠
+    } while (!check_seat_available(start_row, start_col, num_seats, 0));
+
+    // 將座位標記為 '@'
+    for (int i = 0; i < num_seats; i++) {
+        seat_chart[start_row][start_col + i] = '@';
     }
 }
 
@@ -99,28 +135,56 @@ int main (void)
 				break;
 //_________________________________以上為第三題					
 			case 'b':
-			case 'B':
 				system("cls"); // 清除螢幕
-				do//do-while迴圈 
-				{				
- 	  	    	 	printf("請輸入一個1至9的整數n：");
- 	 	     	 	fflush(stdin); 					// 使input buffer 淨空，常放在scanf()前;
- 	  			    scanf("%d", &n);
- 	  			    if(n < 1 || n > 9)		//如果有錯，就要給一個提示字句告知輸入有錯。 
- 	 	 		    {
- 	 	 		    	printf("輸入錯誤!請重新輸入~\n");	
-					}
+				// 初始化座位表
+    			for (int i = 0; i < ROWS; i++) {
+       			for (int j = 0; j < COLS; j++) {
+      			seat_chart[i][j] = '-';
+        		}
     			}
-    	   		while(n < 1 || n > 9);//判斷輸入值是否在 1~9 之間 ，沒有就重做，有就往下做 
-     	  		printf("乘法表：\n");
-      	  		for (i = 1; i <= n; i++) 
+   				// 產生已被預訂的座位
+	    		generate_random_seats();
+	
+		    	int num_seats;
+			    char input;
+    			    printf("請輸入需要的座位數量 (1~4)：");
+        			scanf("%d", &num_seats);
+
+       				if (num_seats < 1 || num_seats > 4) 
+					{
+            			printf("輸入無效！\n");
+            			continue;
+        			}
+
+        			// 選擇座位
+        			choose_seats(num_seats);
+
+        			// 顯示座位表
+        			printf("座位表：\n");
+        			display_seat_chart();
+				
+        			// 詢問使用者是否滿意
+        			printf("是否滿意這個安排？(y/n): ");
+        			scanf(" %c", &input);
+
+        			if (input != 'y' && input != 'Y') 
+					{
+         			// 清除座位安排
+            			for (int i = 0; i < ROWS; i++) 
 						{
-      			      	for (j = 1; j <= n; j++) 
-						{
-      			          printf("  %d * %d = %2d  ",i,j, i * j);//保留適當的空間有利排版 
-      			      	}
-      			     	printf("\n");
-       	 		}
+                			for (int j = 0; j < COLS; j++) 
+							{
+                	    		if (seat_chart[i][j] == '@') 
+								{
+                	        		seat_chart[i][j] = '-';
+                	    		}
+                			}
+            			}
+        			} 
+					/*else 
+					{
+            			//system("clear || cls");// 清除螢幕
+        			}*/			
         		getch();						// 按任意鍵清除 
 				system("CLS"); 					// 清除螢幕
 				break;
