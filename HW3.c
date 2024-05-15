@@ -1,5 +1,36 @@
 #include<stdio.h>
 #include<stdlib.h> 	
+#include <time.h> 
+#define ROWS 9
+#define COLS 9
+
+char seat_chart[ROWS][COLS];// 初始化座位表
+
+void generate_random_seats() // 隨機產生已被預訂的座位
+{
+    srand(time(NULL));
+    for (int i = 0; i < 10; i++) 
+	{
+        int row = rand() % ROWS;
+        int col = rand() % COLS;
+        seat_chart[row][col] = '*';
+    }
+}
+
+void display_seat_chart() // 顯示座位表
+{
+    printf("\\123456789\n");
+    for (int i = ROWS - 1; i >= 0; i--) 
+	{
+        printf("%d", i + 1);
+        for (int j = 0; j < COLS; j++) 
+		{
+            printf("%c", seat_chart[i][j]);
+        }
+        printf("\n");
+    }
+}
+
 int main (void)
 {	
 	//副程式宣告
@@ -52,31 +83,17 @@ int main (void)
 		switch(MENU)	//選單(多重選擇 ) 
 		{
 			case 'a':
-			case 'A':
 				system("CLS"); // 清除螢幕
-				do //do- while迴圈 
+				for (int i = 0; i < ROWS; i++)
 				{
-					printf("    請輸入一個‘a’到‘n’的字元: ");		
-					fflush(stdin); 					// 使input buffer 淨空，常放在scanf()前;
-					scanf("%c",&c);
-					if(c < 'a' || c > 'n')				 
- 		  		    {
- 		  		    	printf("輸入錯誤!請重新輸入~\n");	//如果有錯，就要給一個提示字句告知輸入有錯。 
-					}
-				}
-				while(c < 'a' || c > 'n');		//判斷輸入值是否在a~n之間，是的話往下做，不是的話回到do下方再做一次 
-				for(A= c ; A>='a' ;A-- )	 	//迴圈(A存入剛剛輸入的值，如果A大於等於'a'，做A--) 
-				{
-					for (space ='a' ; space <A ; space++)//讓輸出可以靠又對齊排列，加上適當的空格 
+        			for (int j = 0; j < COLS; j++) 
 					{
-            			printf(" ");
+            		seat_chart[i][j] = '-';
         			}
-					for( B = A ; B <= c ; B++ )//輸出時以升冪排列 
-					{
-						printf("%c",B);			
-					}
-					printf("\n");		
-				}
+    			}
+    			generate_random_seats();// 產生已被預訂的座位
+   				printf("現有座位表：\n");
+   				display_seat_chart();// 顯示座位表
     	    	getch();						// 按任意鍵清除 
 				system("CLS"); 					// 清除螢幕			
 				break;
