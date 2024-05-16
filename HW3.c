@@ -21,7 +21,7 @@ void generate_random_seats() // 隨機產生已被預訂的座位
 void display_seat_chart() // 顯示座位表
 {
     printf("\\123456789\n");
-    for (int i = 0; i < ROWS; i++) 
+    for (int i = ROWS-1; i >=0 ; i--) 
 	{
         printf("%d", i + 1);
         for (int j = 0; j < COLS; j++) 
@@ -65,6 +65,11 @@ void choose_seats(int num_seats) {
     for (int i = 0; i < num_seats; i++) {
         seat_chart[start_row][start_col + i] = '@';
     }
+}
+
+// 檢查座位是否可用(5) 
+bool check_seat_available_5(int row, int col) {
+    return seat_chart[row][col] == '-';
 }
 
 int main (void)
@@ -130,6 +135,7 @@ int main (void)
     			generate_random_seats();// 產生已被預訂的座位
    				printf("現有座位表：\n");
    				display_seat_chart();// 顯示座位表
+   				printf("以 * 表示已被預訂的座位\n");
     	    	getch();						// 按任意鍵清除 
 				system("CLS"); 					// 清除螢幕			
 				break;
@@ -189,6 +195,38 @@ int main (void)
 				system("CLS"); 					// 清除螢幕
 				break;
 //_________________________________以上為第四題	
+			case 'c':
+    			for (int i = 0; i < ROWS; i++) {
+        		for (int j = 0; j < COLS; j++) {
+        			seat_chart[i][j] = '-';
+        			}
+    				}
+
+    			// 讓使用者連續輸入多筆座位選擇，直到輸入完畢為止
+    			char seat[11];
+   				printf("請連續輸入多筆座位選擇，格式為 [列1-行1 列2-行2 ...]，例如 1-2 2-9 ...：\n");
+    			printf("輸入完畢後按Enter鍵，確定結束：\n");
+ 			    do {
+        			printf("座位選擇：");
+        			scanf("%s", seat);
+        			int row, col;
+        				if (sscanf(seat, "%d-%d", &row, &col) == 2 &&
+        			    row >= 1 && row <= ROWS && col >= 1 && col <= COLS &&
+        			    check_seat_available_5(ROWS - row, col - 1)) {
+        			    seat_chart[row - 1][col - 1] = '@'; // 修改座位表，注意要減一
+        			} else {
+        			    printf("輸入無效！請重新輸入。\n");
+        			}
+    			} while (getchar() != '\n');
+				
+				    // 顯示座位表
+    			printf("座位表：\n");
+    			display_seat_chart();
+				
+				getch();						// 按任意鍵清除 
+				system("CLS"); 					// 清除螢幕
+				break;
+//_________________________________以上為第五題				
 			case 'd':
 				do//do-while迴圈 
 				{
@@ -215,7 +253,7 @@ int main (void)
 	}
 	system("PAUSE");
 	return 0;
-//_________________________________以上為第五題	
+//_________________________________以上為第六題	
 }
 /***************以下是副程式********************/ 
 void picture(void)//個人化面的內容輸出 
