@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #define ROWS 9
 #define COLS 9
-
+/*副程式*/
 char seat_chart[ROWS][COLS];// 初始化座位表
 
 void generate_random_seats() // 隨機產生已被預訂的座位
@@ -77,7 +77,6 @@ int main (void)
 	//副程式宣告
 	void menu(void); //主選單畫面
 	void picture(void); //個人風格畫面 
-	
 	//變數宣告
 	int count = 0,password = 2024 ;//第一題用的計數跟密碼 
 	char MENU;		//主選單的輸入變數 	
@@ -143,10 +142,12 @@ int main (void)
 			case 'b':
 				system("cls"); // 清除螢幕
 				// 初始化座位表
-    			for (int i = 0; i < ROWS; i++) {
-       			for (int j = 0; j < COLS; j++) {
-      			seat_chart[i][j] = '-';
-        		}
+    			for (int i = 0; i < ROWS; i++) 
+				{
+       				for (int j = 0; j < COLS; j++)
+					{
+      					seat_chart[i][j] = '-';
+        			}
     			}
    				// 產生已被預訂的座位
 	    		generate_random_seats();
@@ -155,7 +156,6 @@ int main (void)
 			    char input;
     			    printf("請輸入需要的座位數量 (1~4)：");
         			scanf("%d", &num_seats);
-
        				if (num_seats < 1 || num_seats > 4) 
 					{
             			printf("輸入無效！\n");
@@ -196,11 +196,13 @@ int main (void)
 				break;
 //_________________________________以上為第四題	
 			case 'c':
-    			for (int i = 0; i < ROWS; i++) {
-        		for (int j = 0; j < COLS; j++) {
-        			seat_chart[i][j] = '-';
+    			for (int i = 0; i < ROWS; i++) 
+				{
+        			for (int j = 0; j < COLS; j++) 
+					{
+        				seat_chart[i][j] = '-';
         			}
-    				}
+    			}
 
     			// 讓使用者連續輸入多筆座位選擇，直到輸入完畢為止
     			char seat[11];
@@ -211,13 +213,16 @@ int main (void)
         			scanf("%s", seat);
         			int row, col;
         				if (sscanf(seat, "%d-%d", &row, &col) == 2 &&
-        			    row >= 1 && row <= ROWS && col >= 1 && col <= COLS &&
-        			    check_seat_available_5(ROWS - row, col - 1)) {
-        			    seat_chart[row - 1][col - 1] = '@'; // 修改座位表，注意要減一
-        			} else {
-        			    printf("輸入無效！請重新輸入。\n");
-        			}
-    			} while (getchar() != '\n');
+						row >= 1 && row <= ROWS && col >= 1 && col <= COLS &&
+        			    check_seat_available_5(ROWS - row, col - 1)) 
+						{
+        			    	seat_chart[row - 1][col - 1] = '@'; // 修改座位表，注意要減一
+        				} 
+						else 
+						{
+        			    	printf("輸入無效！請重新輸入。\n");
+        				}
+    				} while (getchar() != '\n');
 				
 				    // 顯示座位表
     			printf("座位表：\n");
