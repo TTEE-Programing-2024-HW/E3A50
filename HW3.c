@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #define ROWS 9
 #define COLS 9
-/*副程式*/
+/* 副程式 */
 char seat_chart[ROWS][COLS];// 初始化座位表
 
 void generate_random_seats() // 隨機產生已被預訂的座位
@@ -193,7 +193,7 @@ int main (void)
         			}*/			
         		getch();						// 按任意鍵清除 
 				system("CLS"); 					// 清除螢幕
-				break;
+				break;//跳出 case b
 //_________________________________以上為第四題	
 			case 'c':
     			for (int i = 0; i < ROWS; i++) 
