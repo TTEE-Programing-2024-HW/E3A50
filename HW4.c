@@ -1,8 +1,9 @@
 //HW4 
 //題目: 簡易成績系統 
+
 #include <stdio.h>
 #include <string.h>
-
+ 
 #define MAX_STUDENTS 10
 #define MIN_STUDENTS 5
 #define NAME_LENGTH 50
