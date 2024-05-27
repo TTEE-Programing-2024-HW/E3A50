@@ -2,20 +2,30 @@
 //題目: 簡易成績系統 
 
 #include <stdio.h>
+#include <stdlib.h> 
 #include <string.h>
- 
+#include <conio.h>
 #define MAX_STUDENTS 10
 #define MIN_STUDENTS 5
 #define NAME_LENGTH 50
+/* 全域宣告 */
+typedef struct 
+{
+    char name[NAME_LENGTH];
+    int id;
+    int math;
+    int physics;
+    int english;
+    float average;
+} Student;
 
-/* 副程式 */
-
+Student students[MAX_STUDENTS]; // 學生資料用結構的陣列實現 
+int n; // 全域變數
+void displayStudentData(Student students[], int n); // 第四題的函式 
+void mainMenu(void); // 第三題的函式 
 
 int main (void)
 {	
-	//副程式宣告
-	void menu(void); //主選單畫面
-	void picture(void); //個人風格畫面 
 	//變數宣告
 	int count = 0,password = 2024 ;//第一題用的計數跟密碼 
 	char MENU;		//主選單的輸入變數 	
@@ -60,17 +70,21 @@ int main (void)
 		{
 			case 'a':
 				system("CLS"); // 清除螢幕
-				
-				
-				
-				
+				mainMenu();			//呼叫第三題的函式		
     	    	getch();						// 按任意鍵清除 
 				system("CLS"); 					// 清除螢幕			
 				break;
 //_________________________________以上為第三題					
 			case 'b':
 				system("cls"); // 清除螢幕
-						
+				if (n == 0) 
+				{
+                	printf("尚未輸入任何學生資料。\n");
+                } 
+				else 
+				{
+                    displayStudentData(students, n);
+                }		
         		getch();						// 按任意鍵清除 
 				system("CLS"); 					// 清除螢幕
 				break;//跳出 case b
@@ -91,7 +105,7 @@ int main (void)
 				do//do-while迴圈 
 				{
 					printf("請問是否要繼續執行程式? [是] 請輸入(Y、y)，[否] 請輸入(N、n) :\n"); 
-					fflush(stdin);
+					fflush(stdin);//清空輸入緩衝區
 					scanf("%c",&OPTION);
 					if(OPTION=='y'||OPTION=='Y')		//如果輸入Y或是y 
 					{
@@ -164,3 +178,82 @@ void menu(void)//輸出主選單的圖表
 	printf("\n");
 	return;
 }
+/*____________________以下為第三題所用之程式________________________*/ 
+void inputStudentData(Student students[], int n) //用於讀取學生資料並進行有效性檢查 
+{
+    for (int i = 0; i < n; i++) 
+	{
+        printf("輸入第%d位學生的資料：\n", i + 1);
+
+        printf("姓名：");
+        fgets(students[i].name, NAME_LENGTH, stdin);
+        students[i].name[strcspn(students[i].name, "\n")] = '\0';  // 去掉換行符
+
+        printf("學號（6位整數）：");
+        while (scanf("%d", &students[i].id) != 1 || students[i].id < 100000 || students[i].id > 999999) 
+		{
+            printf("學號無效，請重新輸入學號（6位整數）：");
+            fflush(stdin);//清空輸入緩衝區
+        }
+
+        printf("數學成績（0~100分）：");
+        while (scanf("%d", &students[i].math) != 1 || students[i].math < 0 || students[i].math > 100) 
+		{
+            printf("成績無效，請重新輸入數學成績（0~100分）：");
+            fflush(stdin);//清空輸入緩衝區
+        }
+
+        printf("物理成績（0~100分）：");
+        while (scanf("%d", &students[i].physics) != 1 || students[i].physics < 0 || students[i].physics > 100) 
+		{
+            printf("成績無效，請重新輸入物理成績（0~100分）：");
+            fflush(stdin);//清空輸入緩衝區
+        }
+
+        printf("英文成績（0~100分）：");
+        while (scanf("%d", &students[i].english) != 1 || students[i].english < 0 || students[i].english > 100) 
+		{
+            printf("成績無效，請重新輸入英文成績（0~100分）：");
+            fflush(stdin);//清空輸入緩衝區
+        }
+
+        fflush(stdin);//清空緩衝區
+        
+        students[i].average = (students[i].math + students[i].physics + students[i].english) / 3.0;//計算平均 
+    }
+}
+
+int getStudentCount() 
+{
+    int n;
+    printf("請輸入學生的數量（%d到%d）：", MIN_STUDENTS, MAX_STUDENTS);
+    while (scanf("%d", &n) != 1 || n < MIN_STUDENTS || n > MAX_STUDENTS) 
+	{
+        printf("數量無效，請重新輸入學生數量（%d到%d）：", MIN_STUDENTS, MAX_STUDENTS);
+        fflush(stdin);//清空輸入緩衝區
+    }
+    fflush(stdin);//清空輸入緩衝區
+    return n;
+}
+
+void mainMenu() 
+{
+	n = getStudentCount();
+	inputStudentData(students, n);       
+}
+/*____________________以上為第三題所用之程式________________________*/ 
+void displayStudentData(Student students[], int n)
+{
+    printf("學生資料如下：\n");
+    for (int i = 0; i < n; i++) 
+	{
+        printf("姓名：%s\n", students[i].name);
+        printf("學號：%d\n", students[i].id);
+        printf("數學成績：%d\n", students[i].math);
+        printf("物理成績：%d\n", students[i].physics);
+        printf("英文成績：%d\n", students[i].english);
+        printf("平均成績：%.1f\n", students[i].average);
+        printf("---------------------\n");
+    }
+}
+
