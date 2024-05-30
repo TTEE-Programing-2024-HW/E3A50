@@ -23,7 +23,8 @@ Student students[MAX_STUDENTS]; // 學生資料用結構的陣列實現
 int n; // 全域變數
 void displayStudentData(Student students[], int n); // 第四題的函式 
 void mainMenu(void); // 第三題的函式 
-
+void picture(void); //呼叫副程式個人封面 
+void menu(void); 	//呼叫副程式主選單畫面 
 int main (void)
 {	
 	//變數宣告
@@ -90,7 +91,15 @@ int main (void)
 				break;//跳出 case b
 //_________________________________以上為第四題	
 			case 'c':
-    			
+				system("CLS"); 					// 清除螢幕
+    			if (n == 0) 
+				{
+                    printf("尚未輸入任何學生資料。\n");
+                } 
+				else 
+				{
+                    searchStudentByName(students, n);
+                }
 				getch();						// 按任意鍵清除 
 				system("CLS"); 					// 清除螢幕
 				break;
@@ -256,4 +265,35 @@ void displayStudentData(Student students[], int n)
         printf("---------------------\n");
     }
 }
+/*_______________________以下為第五題所用之程式_________________________*/
+void searchStudentByName(Student students[], int n)
+{
+    char searchName[NAME_LENGTH];
+    printf("請輸入要搜尋的姓名：");
+    fflush(stdin);
+    fgets(searchName, NAME_LENGTH, stdin);
+    searchName[strcspn(searchName, "\n")] = '\0';
+
+    int found = 0;
+    for (int i = 0; i < n; i++) 
+	{
+        if (strcmp(students[i].name, searchName) == 0) 
+		{
+            printf("姓名：%s\n", students[i].name);
+            printf("學號：%d\n", students[i].id);
+            printf("數學成績：%d\n", students[i].math);
+            printf("物理成績：%d\n", students[i].physics);
+            printf("英文成績：%d\n", students[i].english);
+            printf("平均成績：%.1f\n", students[i].average);
+            printf("-------------------------\n");
+            found = 1;
+            break;
+        }
+    }
+    if (!found) 
+	{
+        printf("資料不存在。\n");
+    }
+}
+/*_______________________以上為第五題所用之程式_________________________*/
 
