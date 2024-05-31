@@ -1,6 +1,5 @@
 //HW4 
 //題目: 簡易成績系統 
-
 #include <stdio.h>
 #include <stdlib.h> 
 #include <string.h>
@@ -11,32 +10,30 @@
 /* 全域宣告 */
 typedef struct 
 {
-    char name[NAME_LENGTH];
-    int id;
-    int math;
-    int physics;
-    int english;
-    float average;
+    char name[NAME_LENGTH];//姓名 
+    int id;//學號 
+    int math;//數學成績 
+    int physics;//物理成績 
+    int english;//英文成績 
+    float average;//平均成績 
 } Student;
-
-void menu(void);	//呼叫副程式主選單畫面
-void mainMenu(void);// 第三題的函式
-void displayStudentData(Student students[], int n);// 第四題的函式
-void searchStudentByName(Student students[], int n);
-void sortAndDisplayStudentsByAverageGrade(Student students[], int n);
-int getStudentCount(void);
-void inputStudentData(Student students[], int n);
-void end_code(void);//第七題的函式 
-Student students[MAX_STUDENTS]; // 學生資料用結構的陣列實現 
 int n; // 全域變數
-void picture(void); //呼叫副程式個人封面 
- 
+Student students[MAX_STUDENTS]; // 學生資料用結構的陣列實現 
+void picture(void); 		//呼叫副程式個人封面 
+void menu(void);			//呼叫副程式主選單畫面
+void mainMenu(void);		// 第三題的函式
+int getStudentCount(void);	// 第三題函式中的函式 
+void inputStudentData(Student students[], int n);// 第三題函式中的函式 
+void displayStudentData(Student students[], int n);// 第四題的函式
+void searchStudentByName(Student students[], int n);// 第五題的函式
+void sortAndDisplayStudentsByAverageGrade(Student students[], int n);// 第六題的函式
+void end_code(void);//第七題的函式 
+//以下為主程式 
 int main (void)
 {	
 	//變數宣告
 	int count = 0,password = 2024 ;//第一題用的計數跟密碼 
 	char MENU;		//主選單的輸入變數 	
-	
 	/*程式內容如下*/ 
 	picture();		//呼叫副程式，輸出個人風格畫面 
 	
@@ -88,8 +85,8 @@ int main (void)
                 	printf("尚未輸入任何學生資料。\n");
                 } 
 				else 
-				{
-                    displayStudentData(students, n);
+				{	//在螢幕上顯示所有學生的姓名、學號、各科成績，及個人的平均成績 
+                    displayStudentData(students, n); 
                 }		
         		getch();						// 按任意鍵清除 
 				system("CLS"); 					// 清除螢幕
@@ -102,7 +99,8 @@ int main (void)
                     printf("尚未輸入任何學生資料。\n");
                 } 
 				else 
-				{
+				{	/*要求輸入要搜尋的姓名。若找到該姓名，則列出該生姓名、學號、各科成績及個人平均成績。
+					若找不到，則出現資料不存在的訊息。*/ 
                     searchStudentByName(students, n);
                 }
 				getch();						// 按任意鍵清除 
@@ -126,7 +124,7 @@ int main (void)
 //_________________________________以上為第六題	
 			case 'e':
 				system("CLS"); 					// 清除螢幕				
-				end_code();
+				end_code();			//結束系統的程式 
 				//getch();						// 按任意鍵清除 
 				//system("CLS"); 					// 清除螢幕
 				break;
@@ -246,7 +244,7 @@ int getStudentCount()
 
 void mainMenu() 
 {
-	n = getStudentCount();
+	n = getStudentCount();//讓輸入的人數值，放進 
 	inputStudentData(students, n);       
 }
 /*____________________以上為第三題所用之程式________________________*/ 
