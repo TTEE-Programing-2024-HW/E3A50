@@ -26,7 +26,7 @@ void searchStudentByName(Student students[], int n);
 void sortAndDisplayStudentsByAverageGrade(Student students[], int n);
 int getStudentCount(void);
 void inputStudentData(Student students[], int n);
-
+void end_code(void);//第七題的函式 
 Student students[MAX_STUDENTS]; // 學生資料用結構的陣列實現 
 int n; // 全域變數
 void picture(void); //呼叫副程式個人封面 
@@ -36,7 +36,6 @@ int main (void)
 	//變數宣告
 	int count = 0,password = 2024 ;//第一題用的計數跟密碼 
 	char MENU;		//主選單的輸入變數 	
-	char OPTION;	//case e的變數 
 	
 	/*程式內容如下*/ 
 	picture();		//呼叫副程式，輸出個人風格畫面 
@@ -126,29 +125,13 @@ int main (void)
 				break;
 //_________________________________以上為第六題	
 			case 'e':
-				do//do-while迴圈 
-				{
-					printf("請問是否要繼續執行程式? [是] 請輸入(Y、y)，[否] 請輸入(N、n) :\n"); 
-					fflush(stdin);//清空輸入緩衝區
-					scanf("%c",&OPTION);
-					if(OPTION=='y'||OPTION=='Y')		//如果輸入Y或是y 
-					{
-						getch();						// 按任意鍵清除 
-						system("CLS"); 					// 清除螢幕
-						break;							//跳出case 
-					}
-					else if(OPTION=='n'||OPTION=='N')	//如果輸入N或是n 
-					{
-						return 0;//結束程式 
-					}
-					else //if( (OPTION!='y'||OPTION!='Y') || (OPTION!='n'||OPTION!='N') )
-					{
-					 	printf("輸入錯誤\n");//都不是就出現提示字句 
-					}
-				}
-				while( (OPTION!='y'||OPTION!='Y') || (OPTION!='n'||OPTION!='N') );//當輸入不等於 { Y,y,N,n }就回到do再做一次 
-		}
-	}
+				system("CLS"); 					// 清除螢幕				
+				end_code();
+				//getch();						// 按任意鍵清除 
+				//system("CLS"); 					// 清除螢幕
+				break;
+		}//switch
+	}//while
 	system("PAUSE");
 	return 0;
 //_________________________________以上為第七題	
@@ -205,6 +188,7 @@ void menu(void)//輸出主選單的圖表
 /*____________________以下為第三題所用之程式________________________*/ 
 void inputStudentData(Student students[], int n) //用於讀取學生資料並進行有效性檢查 
 {
+	char OPTION;	//case e的變數 
     for (int i = 0; i < n; i++) 
 	{
         printf("輸入第%d位學生的資料：\n", i + 1);
@@ -319,9 +303,9 @@ void searchStudentByName(Student students[], int n)
 void sortAndDisplayStudentsByAverageGrade(Student students[], int n) 
 {
     // 使用簡單的冒泡排序法來按平均成績排序
-    for (int i = 0; i < n - 1; i++) 
+    for (int i = 0 ; i < n - 1 ; i++) 
 	{
-        for (int j = 0; j < n - 1 - i; j++) 
+        for (int j = 0 ; j < n - 1 - i ; j++) 
 		{
             if (students[j].average < students[j + 1].average) 
 			{
@@ -342,4 +326,29 @@ void sortAndDisplayStudentsByAverageGrade(Student students[], int n)
     }
 }
 /*_______________________以上為第六題所用之程式_________________________*/
+/*_______________________以下為第七題所用之程式_________________________*/
+void end_code(void)//確認是否要離開程式 
+{
+	char OPTION;
+    do {
+        	printf("確定是否要離開？ (y/n): ");
+        	fflush(stdin);
+        	scanf("%c", &OPTION);
+        	if (OPTION == 'n' || OPTION == 'N') 
+			{
+            	system("CLS");//清除畫面 
+            	return; // 返回主選單
+        	} 
+			else if (OPTION == 'y' || OPTION == 'Y') 
+			{
+        	    exit(0); // 結束程式回到作業系統
+        	} 
+			else 
+			{
+        	    printf("輸入錯誤!請重新輸入\n");
+        	}
+    	} while (1);
+}
+/*_______________________以上為第七題所用之程式_________________________*/
+
 
