@@ -19,12 +19,18 @@ typedef struct
     float average;
 } Student;
 
+void menu(void);	//©I¥s°Æµ{¦¡¥D¿ï³æµe­±
+void mainMenu(void);// ²Ä¤TÃDªº¨ç¦¡
+void displayStudentData(Student students[], int n);// ²Ä¥|ÃDªº¨ç¦¡
+void searchStudentByName(Student students[], int n);
+void sortAndDisplayStudentsByAverageGrade(Student students[], int n);
+int getStudentCount(void);
+void inputStudentData(Student students[], int n);
+
 Student students[MAX_STUDENTS]; // ¾Ç¥Í¸ê®Æ¥Îµ²ºcªº°}¦C¹ê²{ 
 int n; // ¥þ°ìÅÜ¼Æ
-void displayStudentData(Student students[], int n); // ²Ä¥|ÃDªº¨ç¦¡ 
-void mainMenu(void); // ²Ä¤TÃDªº¨ç¦¡ 
 void picture(void); //©I¥s°Æµ{¦¡­Ó¤H«Ê­± 
-void menu(void); 	//©I¥s°Æµ{¦¡¥D¿ï³æµe­± 
+ 
 int main (void)
 {	
 	//ÅÜ¼Æ«Å§i
@@ -105,7 +111,16 @@ int main (void)
 				break;
 //_________________________________¥H¤W¬°²Ä¤­ÃD
 			case 'd':
-    			
+				system("CLS"); 					// ²M°£¿Ã¹õ
+    			if (n == 0) 
+				{
+                    printf("©|¥¼¿é¤J¥ô¦ó¾Ç¥Í¸ê®Æ¡C\n");
+                } 
+				else 
+				{
+					//«ö¥­§¡¦¨ÁZ±Æ§Ç¨ÃÅã¥Ü¾Ç¥Íªº©m¦W¡B¾Ç¸¹¤Î¥­§¡¦¨ÁZ 
+                    sortAndDisplayStudentsByAverageGrade(students, n); 
+                }
 				getch();						// «ö¥ô·NÁä²M°£ 
 				system("CLS"); 					// ²M°£¿Ã¹õ
 				break;
@@ -231,7 +246,7 @@ void inputStudentData(Student students[], int n) //¥Î©óÅª¨ú¾Ç¥Í¸ê®Æ¨Ã¶i¦æ¦³®Ä©ÊÀ
         students[i].average = (students[i].math + students[i].physics + students[i].english) / 3.0;//­pºâ¥­§¡ 
     }
 }
-
+//­n¨D¨Ï¥ÎªÌ¿é¤J¡A»Ý­n¶ñ¼g¦h¤Öµ§ªº¤H¼Æ¸ê®Æ 
 int getStudentCount() 
 {
     int n;
@@ -251,6 +266,7 @@ void mainMenu()
 	inputStudentData(students, n);       
 }
 /*____________________¥H¤W¬°²Ä¤TÃD©Ò¥Î¤§µ{¦¡________________________*/ 
+/*¦L¥X©Ò¦³°}¦C¤ºªº¸ê®Æ*/ 
 void displayStudentData(Student students[], int n)
 {
     printf("¾Ç¥Í¸ê®Æ¦p¤U¡G\n");
@@ -266,6 +282,7 @@ void displayStudentData(Student students[], int n)
     }
 }
 /*_______________________¥H¤U¬°²Ä¤­ÃD©Ò¥Î¤§µ{¦¡_________________________*/
+/*¦¹¨ç¦¡¥i¥H¦b¨Ï¥ÎªÌ¿é¤J©m¦W«á¡A´M§ä¬Û¹ïÀ³ªº¦¨ÁZ¡A¨Ã¿é¥X¤º®e*/ 
 void searchStudentByName(Student students[], int n)
 {
     char searchName[NAME_LENGTH];
@@ -296,4 +313,33 @@ void searchStudentByName(Student students[], int n)
     }
 }
 /*_______________________¥H¤W¬°²Ä¤­ÃD©Ò¥Î¤§µ{¦¡_________________________*/
+/*_______________________¥H¤U¬°²Ä¤»ÃD©Ò¥Î¤§µ{¦¡_________________________*/
+/* ¦¹¨ç¦¡·|¦b¿ï³æ¤¤¿ï¾Ü 'd' ®É³Q©I¥s¡C
+³o¼Ë¥i¥HÅý¨Ï¥ÎªÌ¬d¬Ý«ö¥­§¡¦¨ÁZ°ª§C¶¶§Ç±Æ¦Cªº¾Ç¥Í¸ê®Æ¡C*/ 
+void sortAndDisplayStudentsByAverageGrade(Student students[], int n) 
+{
+    // ¨Ï¥ÎÂ²³æªº«_ªw±Æ§Çªk¨Ó«ö¥­§¡¦¨ÁZ±Æ§Ç
+    for (int i = 0; i < n - 1; i++) 
+	{
+        for (int j = 0; j < n - 1 - i; j++) 
+		{
+            if (students[j].average < students[j + 1].average) 
+			{
+                Student temp = students[j];
+                students[j] = students[j + 1];
+                students[j + 1] = temp;
+            }
+        }
+    }
+    // ¦C¥X¾Ç¥Íªº©m¦W¡B¾Ç¸¹¤Î¥­§¡¦¨ÁZ
+    printf("¨Ì¥­§¡¦¨ÁZ±Æ§Çªº¾Ç¥Í¸ê®Æ¦p¤U¡G\n");
+    for (int i = 0; i < n; i++) 
+	{
+        printf("©m¦W¡G%s\n", students[i].name);
+        printf("¾Ç¸¹¡G%d\n", students[i].id);
+        printf("¥­§¡¦¨ÁZ¡G%.1f\n", students[i].average);
+        printf("-------------------------\n");
+    }
+}
+/*_______________________¥H¤W¬°²Ä¤»ÃD©Ò¥Î¤§µ{¦¡_________________________*/
 
